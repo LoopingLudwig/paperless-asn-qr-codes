@@ -25,6 +25,7 @@ def main():
         if mat := re.match(r"^(\d{1,2}):(\d{1,2})$", arg):
             return (int(mat.group(1)), int(mat.group(2)))
         elif mat := re.match(r"^\d+$", arg):
+
             return int(arg)
         else:
             raise argparse.ArgumentTypeError("invalid value")
@@ -90,6 +91,7 @@ def main():
     label = avery_labels.AveryLabel(
         args.format, args.border, topDown=args.row_wise, start_pos=args.start_position
     )
+
     label.open(args.output_file)
 
     # If defined use parameter for number of labels
