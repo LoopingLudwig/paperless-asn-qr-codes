@@ -2,21 +2,9 @@ import argparse
 import re
 
 from reportlab.lib.units import mm
-from reportlab_qrcode import QRCodeImage
 
 from paperless_asn_qr_codes import avery_labels
-
-
-def render(c, x, y):
-    global startASN
-    global digits
-    barcode_value = f"ASN{startASN:0{digits}d}"
-    startASN = startASN + 1
-
-    qr = QRCodeImage(barcode_value, size=y * 0.9)
-    qr.drawOn(c, 1 * mm, y * 0.05)
-    c.setFont("Helvetica", 2 * mm)
-    c.drawString(y, (y - 2 * mm) / 2, barcode_value)
+from paperless_asn_qr_codes.render_qr import LabelRenderer
 
 
 def main():
@@ -82,16 +70,18 @@ def main():
         type=_start_position,
         help="Define the starting position on the sheet, eighter as ROW:COLUMN or COUNT, both starting from 1 (default: 1:1 or 1)",
     )
-
-    args = parser.parse_args()
-    global startASN
-    global digits
-    startASN = int(args.start_asn)
-    digits = int(args.digits)
-    label = avery_labels.AveryLabel(
-        args.format, args.border, topDown=args.row_wise, start_pos=args.start_position
+    parser.add_argument(
+        "--micro-qr",
+        "-m",
+        action="store_true",
+        help="Create Micro-QR-Codes, if possible",
     )
 
+    args = parser.parse_args()
+
+    label = avery_labels.AveryLabel(args.format, args.border,
+                                    topDown=args.row_wise,
+                                    start_pos=args.start_position)
     label.open(args.output_file)
 
     # If defined use parameter for number of labels
@@ -100,5 +90,8 @@ def main():
     else:
         # Otherwise number of pages*labels - offset
         count = args.pages * label.across * label.down - label.position
-    label.render(render, count)
+
+    renderer = LabelRenderer(args.start_asn, args.digits, args.micro_qr)
+
+    label.render(renderer.render, count)
     label.close()

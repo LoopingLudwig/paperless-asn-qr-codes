@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 name = "paperless-asn-qr-codes"
 description = 'Code for generating paperless ASN labels with QR codes'
 readme = "README.md"
-requires-python = ">=3.7"
+requires-python = ">=3.8"
 license = "GPL-3.0"
 keywords = []
 authors = [
@@ -24,7 +24,7 @@ classifiers = [
 ]
 dependencies = [
   "reportlab",
-  "reportlab_qrcode"
+  "segno"
 ]
 dynamic = ["version"]
 
