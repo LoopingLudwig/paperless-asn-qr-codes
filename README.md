@@ -1,5 +1,7 @@
 # paperless-asn-qr-codes
 
+*This branch uses segno instead of python-qrcode to generate the QR-Codes*
+
 `paperless-asn-qr-codes` is a command line utility for generating ASN labels
 for paperless with both a human-readable representation, as well as a QR code
 for machine consumption. The labels are Avery 4731 labels.
@@ -36,6 +38,7 @@ options:
                         Number of pages to be printed, ignored if NUM_LABELS is set (default: 1)
   --start-position START_POSITION, -s START_POSITION
                         Define the starting position on the sheet, eighter as ROW:COLUMN or COUNT, both starting from 1 (default: 1:1 or 1)
+  --micro-qr, -m        Create Micro-QR-Codes, if possible
 ```
 
 ### Mandatory arguments
