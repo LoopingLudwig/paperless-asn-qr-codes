@@ -39,42 +39,47 @@ def main():
         help="Number of digits in the ASN (default: 7, produces 'ASN0000001')",
         type=int,
     )
-    parser.add_argument(
+    parser.add_argument("-b",
         "--border",
-        "-b",
         action="store_true",
         help="Display borders around labels, useful for debugging the printer alignment",
     )
-    parser.add_argument(
-        "--row-wise",
-        "-r",
+    parser.add_argument("-r",
+       "--row-wise",
         action="store_false",
         help="Increment the ASNs row-wise, go from left to right",
     )
-    parser.add_argument(
+    parser.add_argument("-n",
         "--num-labels",
-        "-n",
         type=int,
         help="Number of labels to be printed on the sheet",
     )
-    parser.add_argument(
+    parser.add_argument("-p",
         "--pages",
-        "-p",
         type=int,
         default=1,
         help="Number of pages to be printed, ignored if NUM_LABELS is set (default: 1)",
     )
-    parser.add_argument(
+    parser.add_argument("-s",
         "--start-position",
-        "-s",
         type=_start_position,
         help="Define the starting position on the sheet, eighter as ROW:COLUMN or COUNT, both starting from 1 (default: 1:1 or 1)",
     )
-    parser.add_argument(
+    parser.add_argument("-m",
         "--micro-qr",
-        "-m",
         action="store_true",
         help="Create Micro-QR-Codes, if possible",
+    )
+    parser.add_argument(
+        "--qr-code-prefix",
+        type=str,
+        default="ASN",
+        help="Prefix coded in QR-Code (default: ASN)",
+    )
+    parser.add_argument(
+        "--text-prefix",
+        type=str,
+        help="Prefix used in text (default: same as --qr-code-prefix)",
     )
 
     args = parser.parse_args()
@@ -91,7 +96,11 @@ def main():
         # Otherwise number of pages*labels - offset
         count = args.pages * label.across * label.down - label.position
 
-    renderer = LabelRenderer(args.start_asn, args.digits, args.micro_qr)
+    #Prefixes
+    text_prefix = args.qr_code_prefix if args.text_prefix is None else args.text_prefix
+
+    renderer = LabelRenderer(args.start_asn, args.digits, args.micro_qr,
+                             barcode_prefix=args.qr_code_prefix, text_prefix=text_prefix)
 
     label.render(renderer.render, count)
     label.close()

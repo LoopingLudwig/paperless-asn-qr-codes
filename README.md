@@ -15,8 +15,8 @@ pip install paperless-asn-qr-codes
 ## Usage
 
 ```
-usage: paperless-asn-qr-codes [-h] [--format {averyL4731,avery5160,avery5161,avery5163,avery5167,avery5371}] [--digits DIGITS] [--border] [--row-wise] [--num-labels NUM_LABELS] [--pages PAGES]
-                              [--start-position START_POSITION]
+usage: paperless-asn-qr-codes [-h] [-f {averyL4731,avery5160,avery5161,avery5163,avery5167,avery5371}] [-d DIGITS] [-b] [-r] [-n NUM_LABELS] [-p PAGES] [-s START_POSITION] [-m] [--qr-code-prefix QR_CODE_PREFIX]
+                              [--text-prefix TEXT_PREFIX]
                               start_asn output_file
 
 CLI Tool for generating paperless ASN labels with QR codes
@@ -27,18 +27,23 @@ positional arguments:
 
 options:
   -h, --help            show this help message and exit
-  --format {averyL4731,avery5160,avery5161,avery5163,avery5167,avery5371}, -f {averyL4731,avery5160,avery5161,avery5163,avery5167,avery5371}
-  --digits DIGITS, -d DIGITS
+  -f {averyL4731,avery5160,avery5161,avery5163,avery5167,avery5371}, --format {averyL4731,avery5160,avery5161,avery5163,avery5167,avery5371}
+  -d DIGITS, --digits DIGITS
                         Number of digits in the ASN (default: 7, produces 'ASN0000001')
-  --border, -b          Display borders around labels, useful for debugging the printer alignment
-  --row-wise, -r        Increment the ASNs row-wise, go from left to right
-  --num-labels NUM_LABELS, -n NUM_LABELS
+  -b, --border          Display borders around labels, useful for debugging the printer alignment
+  -r, --row-wise        Increment the ASNs row-wise, go from left to right
+  -n NUM_LABELS, --num-labels NUM_LABELS
                         Number of labels to be printed on the sheet
-  --pages PAGES, -p PAGES
+  -p PAGES, --pages PAGES
                         Number of pages to be printed, ignored if NUM_LABELS is set (default: 1)
-  --start-position START_POSITION, -s START_POSITION
+  -s START_POSITION, --start-position START_POSITION
                         Define the starting position on the sheet, eighter as ROW:COLUMN or COUNT, both starting from 1 (default: 1:1 or 1)
-  --micro-qr, -m        Create Micro-QR-Codes, if possible
+  -m, --micro-qr        Create Micro-QR-Codes, if possible
+  --qr-code-prefix QR_CODE_PREFIX
+                        Prefix coded in QR-Code (default: ASN)
+  --text-prefix TEXT_PREFIX
+                        Prefix used in text (default: same as --qr-code-prefix)
+
 ```
 
 ### Mandatory arguments
